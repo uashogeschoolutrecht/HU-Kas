@@ -39,7 +39,6 @@ def IDtoSTR(df, col):
 # set authorisation
 def GetFacts(user, ww, table):
     auth = HTTPBasicAuth(user, ww)
-    table = 'Files'
     # set base URL for HUKAS
     base_url = 'https://hukas.hu.nl/odata/Hukas_OData/v1/'
 
