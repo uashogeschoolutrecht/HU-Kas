@@ -143,8 +143,6 @@ D_DECISIONS = pd.merge(D_DECISIONS,temp)
 
 
 del output, user, ww, temp
-
-
 F_FILES.to_csv(f'outputtables/F_FILES.csv',index=False, sep =';', encoding='utf-8-sig')
 D_BEHANDELENDEPARTIJS.to_csv(f'outputtables/D_BEHANDELENDEPARTIJS.csv',index=False, sep =';', encoding='utf-8-sig')
 D_REQUESTER_TYPES.to_csv(f'outputtables/D_REQUESTER_TYPES.csv',index=False, sep =';', encoding='utf-8-sig')
