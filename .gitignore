@@ -1,8 +1,10 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*$py.class
+*$py.lass
 
+# csv files
+*.csv
 # C extensions
 *.so
 
