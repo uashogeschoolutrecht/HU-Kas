@@ -10,6 +10,7 @@ ww = getAzureKey('KV-DENA', 'KVW-API-HUKAS-PROD')
 F_FILES = GetFacts(user, ww, 'Files')
 
 # Add CASSES
+
 output = GetDims(user, ww, table= 'Casess', sub_table = 'File')
 D_CASESS = output[1]
 D_CASESS.drop_duplicates(inplace=True)
@@ -60,13 +61,19 @@ D_DECISIONS = pd.merge(D_DECISIONS,temp)
 
 
 del output, user, ww, temp
-F_FILES.to_csv(f'outputtables/F_FILES.csv',index=False, sep =';', encoding='utf-8-sig')
-D_BEHANDELENDEPARTIJS.to_csv(f'outputtables/D_BEHANDELENDEPARTIJS.csv',index=False, sep =';', encoding='utf-8-sig')
-D_REQUESTER_TYPES.to_csv(f'outputtables/D_REQUESTER_TYPES.csv',index=False, sep =';', encoding='utf-8-sig')
-D_STATUSS.to_csv(f'outputtables/D_STATUSS.csv',index=False, sep =';', encoding='utf-8-sig')
-D_STATUS_CHANGES.to_csv(f'outputtables/D_STATUS_CHANGES.csv',index=False, sep =';', encoding='utf-8-sig')
-D_CASESS.to_csv(f'outputtables/D_CASESS.csv',index=False, sep =';', encoding='utf-8-sig')
-D_DECISIONS.to_csv(f'outputtables/D_DECISIONS.csv',index=False, sep =';', encoding='utf-8-sig')
+
+# set outputpath for sharepoint folder 
+import os
+user = os.getlogin()
+path = f'C:/Users/{user}/Stichting Hogeschool Utrecht/FCA-DA-P - Inleesbestanden/HUKAS/'
+
+F_FILES.to_csv(f'{path}F_FILES.csv',index=False, sep =';', encoding='utf-8-sig')
+D_BEHANDELENDEPARTIJS.to_csv(f'{path}/D_BEHANDELENDEPARTIJS.csv',index=False, sep =';', encoding='utf-8-sig')
+D_REQUESTER_TYPES.to_csv(f'{path}/D_REQUESTER_TYPES.csv',index=False, sep =';', encoding='utf-8-sig')
+D_STATUSS.to_csv(f'{path}/D_STATUSS.csv',index=False, sep =';', encoding='utf-8-sig')
+D_STATUS_CHANGES.to_csv(f'{path}/D_STATUS_CHANGES.csv',index=False, sep =';', encoding='utf-8-sig')
+D_CASESS.to_csv(f'{path}/D_CASESS.csv',index=False, sep =';', encoding='utf-8-sig')
+D_DECISIONS.to_csv(f'{path}/D_DECISIONS.csv',index=False, sep =';', encoding='utf-8-sig')
 
 
 
