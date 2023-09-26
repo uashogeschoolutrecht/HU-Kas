@@ -36,8 +36,14 @@ def getHukasTables(user,ww):
 
             o = xmltodict.parse(r.content)    
 
-            temp = pd.DataFrame(pd.DataFrame(o['edmx:Edmx']['edmx:DataServices']['Schema'])['EntityContainer'][0]['EntitySet'])
-            temp = pd.json_normalize(pd.DataFrame(temp[temp['@Name']==table]['NavigationPropertyBinding'])['NavigationPropertyBinding'])
+            temp = pd.DataFrame(
+                pd.DataFrame(
+                    o['edmx:Edmx']['edmx:DataServices']['Schema'])
+                    ['EntityContainer'][0]['EntitySet'])
+            temp = pd.json_normalize(
+                pd.DataFrame(temp[temp['@Name']==table]
+                ['NavigationPropertyBinding'])
+                ['NavigationPropertyBinding'])
 
             sub_tables = []
 
@@ -51,3 +57,4 @@ def getHukasTables(user,ww):
             table_dict.update({table:sub_tables})
 
     return table_dict
+

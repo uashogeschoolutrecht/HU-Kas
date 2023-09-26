@@ -2,3 +2,6 @@ azure-keyvault-secrets
 azure-identity
 requests
 pandas
+xmltodict
+nbformat
+nbclient
