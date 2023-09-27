@@ -5,7 +5,7 @@ In o.a. de Onderwijs- en Examenregeling (OER-HU) en de studiegids zijn de rechte
 De examencommissie van het instituut neemt alleen verzoeken in behandeling die worden ingediend via HUKAS.
 
 Metadata of this datasource is available through: <https://hukas.hu.nl/odata/Hukas_OData/v1/$metadata>
-An overview of available tables are here:
+An overview of available tables are here:sadasd
 
 ```{python}
 #| echo: false

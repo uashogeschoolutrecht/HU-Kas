@@ -73,51 +73,43 @@ SUB TABLES:
     Decisions
     Status
     StatusChanges
----------------------------------
-
+ 
 TABLE: Casess
 SUB TABLES:
     File
     RequesterType
----------------------------------
-
+ 
 TABLE: Decisions
 SUB TABLES:
     File
     StatusChanges
----------------------------------
-
+ 
 TABLE: Statuss
 SUB TABLES:
     Files
     StatusChanges
     StatusChanges_2
----------------------------------
-
+ 
 TABLE: RequesterTypes
 SUB TABLES:
     Casess
     StatusChanges
----------------------------------
-
+ 
 TABLE: BehandelendePartijs
 SUB TABLES:
     Files
----------------------------------
-
+ 
 TABLE: StatusChanges
 SUB TABLES:
     Decision
     File
     Status from
     Status_to
----------------------------------
-
+ 
 TABLE: CustomAccounts
 SUB TABLES:
     Files
----------------------------------
-</code></pre>
+ </code></pre>
 </div>
 </div>
 <section id="requirements" class="level2">
@@ -129,10 +121,11 @@ SUB TABLES:
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This repo consists of 2 Python scripts.</p>
+<p>This repo consists of3 Python scripts.</p>
 <ol type="1">
-<li>Script library.py describes the data tables of which data is imported</li>
+<li>Script functions.py has a the functions needed for this application</li>
 <li>Script main.py collects the credentials to access the data, load the data and writes them into csv files.</li>
+<li>Script readmeta.py this script returns an overview of all avalaible tables</li>
 </ol>
 <p>In more detail the following steps are performed:</p>
 <ul>
