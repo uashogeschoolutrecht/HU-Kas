@@ -20,21 +20,25 @@ def getHukasTables(user,ww):
     r = requests.get(base_url, auth=auth)
 
     import xmltodict
-    # get metadata from XML
+    # Convert XML to dict (=JSON-like)
     o = xmltodict.parse(r.content)
+    # Create dataframe with table names
     table_names = pd.DataFrame(o['service']['workspace']['collection'])['@href']
     tables = list(table_names)
 
     # Create empty table_dict
     table_dict = {}
 
-    # loop through tables and get subtables
+    # loop through tables and get subtables (columns)
     for table in tables:
 
+        # Connect to metadata url
         r = requests.get(f'{base_url}$metadata#{table}', auth=auth)
 
+        # If connection request is valid
         if r.status_code == 200:   
 
+            # Get metadata from XML response
             o = xmltodict.parse(r.content)    
 
             temp = pd.DataFrame(
@@ -46,6 +50,7 @@ def getHukasTables(user,ww):
                 ['NavigationPropertyBinding'])
                 ['NavigationPropertyBinding'])
 
+            # Create empty list
             sub_tables = []
 
             # if only one subtable then
