@@ -1,31 +1,32 @@
+# Fetch credentials from Key Vault
 from functions import getAzureKey
 
 user = getAzureKey('KV-DENA', 'KVK-API-HUKAS-PROD')
 ww = getAzureKey('KV-DENA', 'KVW-API-HUKAS-PROD')
 
+# Get meta data on the tables of HU Kas
 def getHukasTables(user,ww):
     import pandas as pd
     from requests.auth import HTTPBasicAuth
     import requests
 
+    # Set up HTTP authenticion
     auth = HTTPBasicAuth(user, ww)
 
     # set base URL for HUKAS
     base_url = 'https://hukas.hu.nl/odata/Hukas_OData/v1/'
 
+    # Set up a connection to HU Kas using above URL and authentication credentials
     r = requests.get(base_url, auth=auth)
 
     import xmltodict
     # get metadata from XML
     o = xmltodict.parse(r.content)
     table_names = pd.DataFrame(o['service']['workspace']['collection'])['@href']
-
     tables = list(table_names)
 
-    # set table_dict
+    # Create empty table_dict
     table_dict = {}
-
-    import xmltodict
 
     # loop through tables and get subtables
     for table in tables:
