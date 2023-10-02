@@ -60,7 +60,7 @@ SUB TABLES:
 
 ## Summary
 
-This repo consists of3  Python scripts.
+This repo consists of 3 Python scripts.
 
  1. Script functions.py has a the functions needed for this application
  2. Script main.py collects the credentials to access the data, load the data and writes them into csv files.
