@@ -41,6 +41,7 @@ def getHukasTables(user,ww):
             # Get metadata from XML response
             o = xmltodict.parse(r.content)    
 
+            # Extract the navigation towards the data for each table
             temp = pd.DataFrame(
                 pd.DataFrame(
                     o['edmx:Edmx']['edmx:DataServices']['Schema'])
@@ -56,6 +57,7 @@ def getHukasTables(user,ww):
             # if only one subtable then
             try: 
                 sub_tables += [temp['@Path'][0]]
+            # For multiple subtables
             except:
                 for c in temp.columns:    
                     sub_tables += [temp[c][0]['@Path']]
