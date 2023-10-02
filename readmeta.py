@@ -1,3 +1,5 @@
+# Script to get more insight into how the meta-data for HU kas looks. 
+
 # Fetch credentials from Key Vault
 from functions import getAzureKey
 
