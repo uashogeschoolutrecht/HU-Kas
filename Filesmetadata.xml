@@ -1,0 +1,339 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="DefaultNamespace">
+            <EntityType Name="File">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Nullable="false" Type="Edm.Int64">
+                    <Annotation Bool="false" Term="Mendix.IsAttribute" />
+                </Property>
+                <Property MaxLength="200" Name="Dossiernummer" Type="Edm.String" />
+                <Property MaxLength="200" Name="Naam indiener" Type="Edm.String" />
+                <Property MaxLength="200" Name="Instituut" Type="Edm.String" />
+                <Property MaxLength="200" Name="Opleiding" Type="Edm.String" />
+                <Property MaxLength="200" Name="Opleiding - fase" Type="Edm.String" />
+                <Property MaxLength="200" Name="Verzoektype/onderwerp" Type="Edm.String" />
+                <Property MaxLength="200" Name="Opleiding - variant" Type="Edm.String" />
+                <Property Name="Datum ingediend" Type="Edm.DateTimeOffset" />
+                <Property Name="_HasAssignmentSV" Nullable="false" Type="Edm.Boolean" />
+                <Property Name="Afgesloten" Type="Edm.DateTimeOffset" />
+                <Property Name="Voorlopige voorziening" Nullable="false" Type="Edm.Boolean" />
+                <Property MaxLength="200" Name="Verweerder" Type="Edm.String" />
+                <NavigationProperty Name="Cases" Partner="File" Type="DefaultNamespace.Cases" />
+                <NavigationProperty Name="Decisions" Partner="File"
+                    Type="Collection(DefaultNamespace.Decision)" />
+                <NavigationProperty Name="Status" Partner="Files" Type="DefaultNamespace.Status" />
+                <NavigationProperty Name="BehandelendePartij" Partner="Files"
+                    Type="DefaultNamespace.BehandelendePartij" />
+                <NavigationProperty Name="StatusChanges" Partner="File"
+                    Type="Collection(DefaultNamespace.StatusChange)" />
+                <NavigationProperty Name="Behandelaar" Partner="Files"
+                    Type="DefaultNamespace.CustomAccount" />
+            </EntityType>
+            <EntityType Name="Cases">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Nullable="false" Type="Edm.Int64">
+                    <Annotation Bool="false" Term="Mendix.IsAttribute" />
+                </Property>
+                <Property Name="ProcedureType" Type="Edm.String" />
+                <NavigationProperty Name="File" Partner="Cases" Type="DefaultNamespace.File" />
+                <NavigationProperty Name="RequesterType" Partner="Casess"
+                    Type="DefaultNamespace.RequesterType" />
+            </EntityType>
+            <EntityType Name="Decision">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Nullable="false" Type="Edm.Int64">
+                    <Annotation Bool="false" Term="Mendix.IsAttribute" />
+                </Property>
+                <Property Name="Mandaat" Nullable="false" Type="Edm.Boolean" />
+                <Property Name="Datum besluit" Type="Edm.DateTimeOffset" />
+                <NavigationProperty Name="File" Partner="Decisions" Type="DefaultNamespace.File" />
+                <NavigationProperty Name="StatusChanges" Partner="Decision"
+                    Type="Collection(DefaultNamespace.StatusChange)" />
+            </EntityType>
+            <EntityType Name="Status">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Nullable="false" Type="Edm.Int64">
+                    <Annotation Bool="false" Term="Mendix.IsAttribute" />
+                </Property>
+                <Property MaxLength="200" Name="Status/besluit" Type="Edm.String" />
+                <NavigationProperty Name="Files" Partner="Status"
+                    Type="Collection(DefaultNamespace.File)" />
+                <NavigationProperty Name="StatusChanges" Partner="Status from"
+                    Type="Collection(DefaultNamespace.StatusChange)" />
+                <NavigationProperty Name="StatusChanges_2" Partner="Status_to"
+                    Type="Collection(DefaultNamespace.StatusChange)" />
+            </EntityType>
+            <EntityType Name="RequesterType">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Nullable="false" Type="Edm.Int64">
+                    <Annotation Bool="false" Term="Mendix.IsAttribute" />
+                </Property>
+                <Property Name="Soort verzoek" Type="Edm.String" />
+                <NavigationProperty Name="Casess" Partner="RequesterType"
+                    Type="Collection(DefaultNamespace.Cases)" />
+                <NavigationProperty Name="StatusChanges"
+                    Type="Collection(DefaultNamespace.StatusChange)" />
+            </EntityType>
+            <EntityType Name="BehandelendePartij">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Nullable="false" Type="Edm.Int64">
+                    <Annotation Bool="false" Term="Mendix.IsAttribute" />
+                </Property>
+                <Property MaxLength="200" Name="Behandelend orgaan" Type="Edm.String" />
+                <NavigationProperty Name="Files" Partner="BehandelendePartij"
+                    Type="Collection(DefaultNamespace.File)" />
+            </EntityType>
+            <EntityType Name="StatusChange">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Nullable="false" Type="Edm.Int64">
+                    <Annotation Bool="false" Term="Mendix.IsAttribute" />
+                </Property>
+                <Property Name="createdDate" Type="Edm.DateTimeOffset" />
+                <NavigationProperty Name="File" Partner="StatusChanges" Type="DefaultNamespace.File" />
+                <NavigationProperty Name="Decision" Partner="StatusChanges"
+                    Type="DefaultNamespace.Decision" />
+                <NavigationProperty Name="Status from" Partner="StatusChanges"
+                    Type="DefaultNamespace.Status" />
+                <NavigationProperty Name="Status_to" Partner="StatusChanges_2"
+                    Type="DefaultNamespace.Status" />
+            </EntityType>
+            <EntityType Name="CustomAccount">
+                <Key>
+                    <PropertyRef Name="ID" />
+                </Key>
+                <Property Name="ID" Nullable="false" Type="Edm.Int64">
+                    <Annotation Bool="false" Term="Mendix.IsAttribute" />
+                </Property>
+                <NavigationProperty Name="Files" Partner="Behandelaar"
+                    Type="Collection(DefaultNamespace.File)" />
+            </EntityType>
+            <EntityContainer Name="Entities">
+                <EntitySet EntityType="DefaultNamespace.File" Name="Files">
+                    <NavigationPropertyBinding Path="Behandelaar" Target="CustomAccounts" />
+                    <NavigationPropertyBinding Path="BehandelendePartij"
+                        Target="BehandelendePartijs" />
+                    <NavigationPropertyBinding Path="Cases" Target="Casess" />
+                    <NavigationPropertyBinding Path="Decisions" Target="Decisions" />
+                    <NavigationPropertyBinding Path="Status" Target="Statuss" />
+                    <NavigationPropertyBinding Path="StatusChanges" Target="StatusChanges" />
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Insertable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Updatable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Deletable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Searchable" />
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <EntitySet EntityType="DefaultNamespace.Cases" Name="Casess">
+                    <NavigationPropertyBinding Path="File" Target="Files" />
+                    <NavigationPropertyBinding Path="RequesterType" Target="RequesterTypes" />
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Insertable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Updatable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Deletable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Searchable" />
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <EntitySet EntityType="DefaultNamespace.Decision" Name="Decisions">
+                    <NavigationPropertyBinding Path="File" Target="Files" />
+                    <NavigationPropertyBinding Path="StatusChanges" Target="StatusChanges" />
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Insertable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Updatable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Deletable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Searchable" />
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <EntitySet EntityType="DefaultNamespace.Status" Name="Statuss">
+                    <NavigationPropertyBinding Path="Files" Target="Files" />
+                    <NavigationPropertyBinding Path="StatusChanges" Target="StatusChanges" />
+                    <NavigationPropertyBinding Path="StatusChanges_2" Target="StatusChanges" />
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Insertable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Updatable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Deletable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Searchable" />
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <EntitySet EntityType="DefaultNamespace.RequesterType" Name="RequesterTypes">
+                    <NavigationPropertyBinding Path="Casess" Target="Casess" />
+                    <NavigationPropertyBinding Path="StatusChanges" Target="StatusChanges" />
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Insertable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Updatable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Deletable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Searchable" />
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <EntitySet EntityType="DefaultNamespace.BehandelendePartij"
+                    Name="BehandelendePartijs">
+                    <NavigationPropertyBinding Path="Files" Target="Files" />
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Insertable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Updatable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Deletable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Searchable" />
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <EntitySet EntityType="DefaultNamespace.StatusChange" Name="StatusChanges">
+                    <NavigationPropertyBinding Path="Decision" Target="Decisions" />
+                    <NavigationPropertyBinding Path="File" Target="Files" />
+                    <NavigationPropertyBinding Path="Status from" Target="Statuss" />
+                    <NavigationPropertyBinding Path="Status_to" Target="Statuss" />
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Insertable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Updatable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Deletable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Searchable" />
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <EntitySet EntityType="DefaultNamespace.CustomAccount" Name="CustomAccounts">
+                    <NavigationPropertyBinding Path="Files" Target="Files" />
+                    <Annotation Term="Org.OData.Capabilities.V1.InsertRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Insertable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.UpdateRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Updatable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.DeleteRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Deletable" />
+                        </Record>
+                    </Annotation>
+                    <Annotation Term="Org.OData.Capabilities.V1.SearchRestrictions">
+                        <Record>
+                            <PropertyValue Bool="false" Property="Searchable" />
+                        </Record>
+                    </Annotation>
+                </EntitySet>
+                <Annotation Bool="false" Term="Org.OData.Capabilities.V1.BatchSupported" />
+                <Annotation Bool="false" Term="Org.OData.Capabilities.V1.CrossJoinSupported" />
+                <Annotation Bool="true" Term="Org.OData.Capabilities.V1.QuerySegmentSupported" />
+                <Annotation Term="Org.OData.Capabilities.V1.SupportedFormats">
+                    <Collection>
+                        <String>application/json</String>
+                    </Collection>
+                </Annotation>
+            </EntityContainer>
+        </Schema>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Alias="Mendix"
+            Namespace="Com.Mendix">
+            <Term Name="IsAttribute" Type="Edm.Boolean" />
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
